@@ -16,7 +16,7 @@ In this data visualizer, users will be able to:
 
 ## Wireframe
 
-<img src="Homepage.png" width="500px" alt="us-states">
+<img src="images/Homepage.png" width="500px" alt="us-states">
 
 
 ## Technologies, Libraries, APIs
