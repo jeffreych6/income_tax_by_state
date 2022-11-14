@@ -2,6 +2,7 @@ import { Example, State } from "./scripts/example";
 // import State from "./scripts/example";
 
 import * as index from "../data/index.js";
+import renderMap from "./scripts/map";
 
 const main = document.getElementById("main");
 new Example(main);
@@ -14,6 +15,8 @@ Object.keys(index.default).map((state) => {
     states.append(li);
     new State(li);
 })
+
+renderMap();
 
 // let income = 100000
 // let tax_owed = 0

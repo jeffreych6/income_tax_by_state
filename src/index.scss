@@ -1,0 +1,10 @@
+.state {
+    fill: gray;
+    stroke: black;
+    stroke-width: 0.5;
+}
+
+.state:hover {
+    fill: yellow;
+    cursor: pointer;
+}
