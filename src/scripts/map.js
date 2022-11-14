@@ -1,4 +1,4 @@
-import * as usStatesMap from "../../states_10m.json";
+import usStatesMap from "../../states_10m.json";
 
 const renderMap = fullDataset => {
 
@@ -29,11 +29,11 @@ const renderMap = fullDataset => {
         .attr("class", "state")
         .attr("d", path)
 
-    const usMap = document.getElementsByClassName("us-map")
+    // const usMap = document.getElementsByClassName("us-map")
     
-    usMap.addEventListener("mouseover", e => {
-        const name = e.target.
-    })
+    // usMap.addEventListener("mouseover", e => {
+    //     const name = e.target.
+    // })
 }
 
 export default renderMap;

@@ -35,34 +35,79 @@ class State {
         this.ele.innerText = this.name;
     }
 
-    calculateTax(stateName) {
-        let income = 1000000 
-        let tax_owed = 0
+    calculateTax(stateName, calculateFederalTax, calculateSocialSecurityTax, calculateMedicareTax, calculateStateTax) {
+        const grossIncome = 1000000 
 
-        if (!index.default[stateName].single.income_tax_brackets) return "No state income tax"
+        calculateFederalTax = () => {
+            let standardDeduction = index.default.federal.tax_withholding_percentage_method_tables.annual.single.deductions[0].deduction_amount
+            let income = grossIncome - standardDeduction
+            let taxOwed = 0
+            let taxBrackets = index.default.federal.tax_withholding_percentage_method_tables.annual.single.income_tax_brackets
 
-        index.default[stateName].single.income_tax_brackets.forEach((ele) => {
+            for (let i = 0; i < taxBrackets.length; i++) {
+                if (i === taxBrackets.length - 1) {
+                    taxOwed += income * (taxBrackets[i].marginal_rate * 0.01);
+                    income -= income;
+                    return taxOwed;
+                }
 
-            if (ele.bracket === 0) {
-                tax_owed += income * (ele.marginal_rate * 0.01);
-                income -= tax_owed;
-            } else if (income > ele.bracket) {
-                income -= ele.bracket
-                tax_owed += ele.bracket * (ele.marginal_rate * 0.01)
-            } else if (income < ele.bracket) {
-                tax_owed += income * (ele.marginal_rate * 0.01);
-                income -= income;
+                if (income > (taxBrackets[i + 1].bracket - taxBrackets[i].bracket)) {
+                    taxOwed += (taxBrackets[i + 1].bracket - taxBrackets[i].bracket) * (taxBrackets[i].marginal_rate * 0.01);
+                    income -= (taxBrackets[i + 1].bracket - taxBrackets[i].bracket)
+                } else if (income < (taxBrackets[i + 1].bracket - taxBrackets[i].bracket)) {
+                    taxOwed += income * (taxBrackets[i].marginal_rate * 0.01);
+                    income -= income;
+                } else if (income === 0) break; 
             }
 
-            // if at last tax bracket [taxbracket.length-1], tax the remaining income
-            // don't forget standard deduction
-            
-            // console.log(income)
-            // console.log(ele.bracket * (ele.marginal_rate * 0.01))
-            // console.log(tax_owed)
-        })
-        return `You owe $${Math.floor(tax_owed)} and have $${Math.floor(1000000 - tax_owed)} leftover!`
+            return taxOwed;
+        }
+
+        calculateSocialSecurityTax = () => {
+            const max = 8537.40;
+            const socialSecurityTaxRate = 0.062;
+            if (grossIncome * socialSecurityTaxRate > max) return max;
+            return grossIncome * socialSecurityTaxRate;
+        }
+
+        calculateMedicareTax = () => {
+            const medicareTaxRate = 0.0145;
+            let taxOwed = 0;
+            if (grossIncome > 200000) taxOwed += (grossIncome - 200000) * 0.009;
+            taxOwed += grossIncome * medicareTaxRate;
+            return taxOwed;
+        }
+
+        calculateStateTax = (stateName) => {
+            if (!index.default[stateName].single.income_tax_brackets) return 0;
+            let standardDeduction = index.default[stateName].single.deductions.length > 0 ? index.default[stateName].single.deductions[0].deduction_amount : 0;
+            let income = grossIncome - standardDeduction
+            let taxOwed = 0
+            let taxBrackets = index.default[stateName].single.income_tax_brackets
+
+
+            for (let i = 0; i < taxBrackets.length; i++) {
+                if (i === taxBrackets.length - 1) {
+                    taxOwed += income * (taxBrackets[i].marginal_rate * 0.01);
+                    income -= income;
+                    return taxOwed;
+                }
+
+                if (income > (taxBrackets[i + 1].bracket - taxBrackets[i].bracket)) {
+                    taxOwed += (taxBrackets[i + 1].bracket - taxBrackets[i].bracket) * (taxBrackets[i].marginal_rate * 0.01);
+                    income -= (taxBrackets[i + 1].bracket - taxBrackets[i].bracket)
+                } else if (income < (taxBrackets[i + 1].bracket - taxBrackets[i].bracket)) {
+                    taxOwed += income * (taxBrackets[i].marginal_rate * 0.01);
+                    income -= income;
+                } else if (income === 0) break; 
+            }
+
+            return taxOwed;
+        }
+        return `You owe $${Math.floor(calculateFederalTax())} federal tax, $${Math.floor(calculateSocialSecurityTax() + calculateMedicareTax())} FICA tax, $${Math.floor(calculateStateTax(stateName))} ${stateName} tax and have $${Math.floor(grossIncome - calculateFederalTax() - calculateSocialSecurityTax() - calculateMedicareTax() - calculateStateTax(stateName))} leftover!`
     }
 }
 
 export {Example, State};
+
+
