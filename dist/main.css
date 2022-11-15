@@ -1,13 +1,31 @@
 /*!*************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
   \*************************************************************************************************************************************/
+#map {
+  display: flex;
+  justify-content: center;
+}
+
 .state {
   fill: gray;
   stroke: black;
   stroke-width: 0.5;
 }
 
-.state:hover {
+.selected {
   fill: yellow;
   cursor: pointer;
+  height: 110%;
+  width: 110%;
+}
+
+#slider-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#value {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }

@@ -6,20 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./dist/main.css" />
-    <link rel="stylesheet" href="./src/styles/map.scss">
+    <link rel="stylesheet" href="./src/styles/map.scss" />
     <script src="./dist/main.js" defer></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
     <title>Project Name</title>
   </head>
 
   <body>
-    <div id="main"></div>
     <div id="map"></div>
+    <div id="slider-container">
+      <div id="slider"></div>
+      <div id="value"></div>
+    </div> 
+    <script>
+      let slider = d3
+        .sliderHorizontal()
+        .min(1000)
+        .max(300000)
+        .step(1000)
+        .width(750)
+        .displayValue(false)
+        .on('onchange', (val) => {
+          d3.select('#value').text(val);
+        });
+    
+      d3.select('#slider')
+        .append('svg')
+        .attr('width', 800)
+        .attr('height', 100)
+        .append('g')
+        .attr('transform', 'translate(30,30)')
+        .call(slider);
+    </script>
     <div id="states"></div>
-    <svg width="100" height="100">
-      <circle cx="50" cy="50" r="40" stroke="green" stroke-width="4" fill="yellow" />
-    </svg>
   </body>
 
 </html>

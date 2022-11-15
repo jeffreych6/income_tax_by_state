@@ -1,19 +1,5 @@
 import * as index from "../../data/index";
 
-
-class Example {
-    constructor(ele){
-        this.ele = ele;
-        this.ele.innerHTML = "<h1>It's ALIVE!!!</h1>"
-
-        this.ele.addEventListener("click", this.handleClick.bind(this));
-    }
-
-    handleClick(){
-        this.ele.children[0].innerText = "Ouch!";
-    }
-}
-
 class State {
     constructor(ele){
         this.ele = ele;
@@ -34,7 +20,7 @@ class State {
         // console.log(calculateTax);
         this.ele.innerText = this.name;
     }
-
+    
     calculateTax(stateName, calculateFederalTax, calculateSocialSecurityTax, calculateMedicareTax, calculateStateTax) {
         const grossIncome = 1000000 
 
@@ -105,9 +91,28 @@ class State {
             return taxOwed;
         }
         return `You owe $${Math.floor(calculateFederalTax())} federal tax, $${Math.floor(calculateSocialSecurityTax() + calculateMedicareTax())} FICA tax, $${Math.floor(calculateStateTax(stateName))} ${stateName} tax and have $${Math.floor(grossIncome - calculateFederalTax() - calculateSocialSecurityTax() - calculateMedicareTax() - calculateStateTax(stateName))} leftover!`
-    }
+    }    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
-export {Example, State};
+export default State;
 
 

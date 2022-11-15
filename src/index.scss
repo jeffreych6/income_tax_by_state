@@ -1,10 +1,29 @@
+#map {
+    display: flex;
+    justify-content: center;
+}
+
 .state {
     fill: gray;
     stroke: black;
     stroke-width: 0.5;
 }
 
-.state:hover {
+.selected {
     fill: yellow;
     cursor: pointer;
+
+    height: 110%;
+    width: 110%;
+}
+
+#slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#value {
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
 }
