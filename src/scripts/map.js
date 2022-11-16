@@ -10,8 +10,8 @@ const renderMap = () => {
         .append("div")
         .attr("id", "tooltip")
         .style("text-align", "left")
-        .style("padding", `${16}px`)
-        .style("background-color", "lightsalmon")
+        .style("padding", "16px")
+        .style("background-color", "white")
         .style("border", "1px solid black")
         .style("width", "auto")
         .style("opacity", 0)
@@ -41,17 +41,45 @@ const renderMap = () => {
         .data(states)
         .enter()
         .append("path")
-        .attr("id", function (d) {
-            return `${d.properties.name}`
-        })
+        // .attr("id", function (d) {
+        //     return `${d.properties.name}`
+        // })
         .attr("class", "state")
         .attr("d", path)
         .on("mouseover", function(d) {
             d3.select(this).classed("selected", true);
-            const hoverBox = document.getElementById("tooltip");
-            hoverBox.style.top = `${d3.mouse(this)[0] + 10}px`;
-            hoverBox.style.left = `${d3.mouse(this)[1] + 10}px`;
-            hoverBox.style.opacity = 0.92;
+
+            const tooltipBox = document.getElementById("tooltip");
+            tooltipBox.style.top = `${d3.mouse(this)[0]}px`;
+            tooltipBox.style.left = `${d3.mouse(this)[1]}px`;
+            tooltipBox.style.opacity = 0.9;
+
+            const currentState = new State(d)
+            console.log(currentState.calculateTax(d.properties.name))
+            console.log(currentState.name)
+            // State.hoverCalculations(d.properties.name);
+
+            const grossIncome = 1000000;
+
+            d3.select("#hoverBoxContainer").remove()
+            d3.select("#tooltip")
+            .append("div")
+            .attr("id", "hoverBoxContainer")
+            .append("div")
+            .text(`${currentState.titleize(d.properties.name)}`)
+            .style("font-weight", "bold")
+            .append("div")
+            .text(`Gross Income: $1000000`)
+            .append("div")
+            .text(`Federal Income Tax: $${Math.floor(currentState.calculateFederalTax(grossIncome))}`)
+            .append("div")
+            .text(`FICA Tax: $${Math.floor(currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome))}`) 
+            .append("div")
+            .text(`State Tax: $${Math.floor(currentState.calculateStateTax(d.properties.name, grossIncome))}`)
+            .append("div")
+            .text(`Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(d.properties.name, grossIncome))}`)
+            .append("div")
+            .text(`Net Income: $${Math.floor(grossIncome - currentState.calculateFederalTax(grossIncome) - currentState.calculateSocialSecurityTax(grossIncome) - currentState.calculateMedicareTax(grossIncome) - currentState.calculateStateTax(d.properties.name, grossIncome))}`)
         })
         .on("mouseout", function(d) {
             d3.select(this).classed("selected", false);
@@ -63,10 +91,13 @@ const renderMap = () => {
               .style("top", `${d3.mouse(this)[1] + 10}px`);
         })
 
+    
+
         // create div
         // mouseover, mousemove, mouseout, click
 }
 
+// export {renderMap, render};
 export default renderMap;
 
 // hover should show: state name, gross income, marginal tax rate, tax owed, net income
