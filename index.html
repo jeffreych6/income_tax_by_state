@@ -8,39 +8,36 @@
     <link rel="stylesheet" href="./dist/main.css" />
     <link rel="stylesheet" href="./src/styles/map.scss" />
     <script src="./dist/main.js" defer></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
-    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https://kit.fontawesome.com/f979fa5309.js" crossorigin="anonymous"></script>
     <title>Project Name</title>
   </head>
 
   <body>
+    <nav id="nav-bar">
+      <h1>Income Tax Calculator for Single Individuals Only</h1>
+      <div>
+        <a href="#"><i class="fa-solid fa-circle-info"></i></a>
+        <a href="https://github.com/jeffreych6"><i class="fa-brands fa-github"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>  
+      </div>
+    </nav>
     <div id="map"></div>
-    <div id="slider-container">
-      <div id="slider"></div>
-      <div id="value"></div>
-    </div> 
-    <script>
-      let slider = d3
-        .sliderHorizontal()
-        .min(1000)
-        .max(300000)
-        .step(1000)
-        .width(750)
-        .displayValue(false)
-        .on('onchange', (val) => {
-          d3.select('#value').text(val);
-        });
-    
-      d3.select('#slider')
-        .append('svg')
-        .attr('width', 800)
-        .attr('height', 100)
-        .append('g')
-        .attr('transform', 'translate(30,30)')
-        .call(slider);
-    </script>
+    <div id="slider-container"></div> 
     <div id="states"></div>
+    <div id="my_dataviz"></div>
+
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+      </div>
+    
+    </div>
+
   </body>
 
 </html>

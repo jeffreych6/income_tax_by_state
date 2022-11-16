@@ -1,19 +1,17 @@
-import * as index from "../data/index.js";
-import State from "./scripts/example";
-// import {renderMap, render} from "./scripts/map";
 import renderMap from "./scripts/map";
-
-const states = document.getElementById("states");
-
-// Object.keys(index.default).map((state) => {
-//     let li = document.createElement('li');
-//     li.innerText = state;
-//     states.append(li);
-//     new State(li);
-// })
+import renderSlider from "./scripts/slider";
 
 renderMap();
-// render();   
+renderSlider();
 
-// create object for each state, calculate taxes
-// 
+// When the user clicks on <span> (x), close the modal
+document.getElementsByClassName("close")[0].onclick = function() {
+    document.getElementById("myModal").style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == document.getElementById("myModal")) {
+        document.getElementById("myModal").style.display = "none";
+    }
+  }

@@ -1,4 +1,5 @@
 import usStatesMap from "../../states_10m.json";
+import renderChart from "./chart";
 import State from "./example";
 
 const renderMap = () => {
@@ -6,6 +7,7 @@ const renderMap = () => {
     const height = 600;
     const width = 900;
 
+    // Create tooltip box
     d3.select("body")
         .append("div")
         .attr("id", "tooltip")
@@ -41,63 +43,80 @@ const renderMap = () => {
         .data(states)
         .enter()
         .append("path")
-        // .attr("id", function (d) {
-        //     return `${d.properties.name}`
-        // })
         .attr("class", "state")
         .attr("d", path)
         .on("mouseover", function(d) {
+            // Hover color
             d3.select(this).classed("selected", true);
 
-            const tooltipBox = document.getElementById("tooltip");
-            tooltipBox.style.top = `${d3.mouse(this)[0]}px`;
-            tooltipBox.style.left = `${d3.mouse(this)[1]}px`;
-            tooltipBox.style.opacity = 0.9;
+            // Hover tooltip box
+            d3.select("#tooltip")
+            .style("left", `${d3.pointer(d)[0]}px`)
+            .style("top", `${d3.pointer(d)[1]}px`)
+            .style("opacity", 1);
 
+            console.log(d)
+            // Create state object
             const currentState = new State(d)
-            console.log(currentState.calculateTax(d.properties.name))
-            console.log(currentState.name)
-            // State.hoverCalculations(d.properties.name);
 
-            const grossIncome = 1000000;
-
+            // Get income data
+            const grossIncome = d3.select("#gross-income").html();
+            
+            // Display calculated information in hover tooltip box
             d3.select("#hoverBoxContainer").remove()
             d3.select("#tooltip")
             .append("div")
             .attr("id", "hoverBoxContainer")
             .append("div")
-            .text(`${currentState.titleize(d.properties.name)}`)
+            .text(`${currentState.titleize(currentState.name)}`)
             .style("font-weight", "bold")
             .append("div")
-            .text(`Gross Income: $1000000`)
+            .text(`Gross Income: $${grossIncome.toLocaleString("en-US")}`)
             .append("div")
-            .text(`Federal Income Tax: $${Math.floor(currentState.calculateFederalTax(grossIncome))}`)
+            .text(`Standard Deduction: $${currentState.calculateStandardDeduction().toLocaleString("en-US")}`)
             .append("div")
-            .text(`FICA Tax: $${Math.floor(currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome))}`) 
+            .text(`Federal Income Tax: $${Math.floor(currentState.calculateFederalTax(grossIncome)).toLocaleString("en-US")}`)
             .append("div")
-            .text(`State Tax: $${Math.floor(currentState.calculateStateTax(d.properties.name, grossIncome))}`)
+            .text(`FICA Tax: $${Math.floor(currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome)).toLocaleString("en-US")}`) 
             .append("div")
-            .text(`Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(d.properties.name, grossIncome))}`)
+            .text(`State Tax: $${Math.floor(currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
             .append("div")
-            .text(`Net Income: $${Math.floor(grossIncome - currentState.calculateFederalTax(grossIncome) - currentState.calculateSocialSecurityTax(grossIncome) - currentState.calculateMedicareTax(grossIncome) - currentState.calculateStateTax(d.properties.name, grossIncome))}`)
+            .text(`State Standard Deduction: $${currentState.calculateStateStandardDeduction(currentState.name).toLocaleString("en-US")}`)
+            .append("div")
+            .text(`Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
+            .append("div")
+            .text(`Net Income: $${Math.floor(grossIncome - currentState.calculateFederalTax(grossIncome) - currentState.calculateSocialSecurityTax(grossIncome) - currentState.calculateMedicareTax(grossIncome) - currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
         })
         .on("mouseout", function(d) {
             d3.select(this).classed("selected", false);
             d3.select("#tooltip").style("opacity", 0)
         })
+
         .on("mousemove", function(d) {
             d3.select("#tooltip")
-              .style("left", `${d3.mouse(this)[0] + 10}px`)
-              .style("top", `${d3.mouse(this)[1] + 10}px`);
+            .style("left", `${d3.pointer(d)[0]}px`)
+            .style("top", `${d3.pointer(d)[1]}px`)
         })
+        .on("click", function(d) {
+            // Reset chart
+            d3.select("#pieChart").remove()
+            // Create state object
+            const currentState = new State(d)
+            // Get income data
+            const grossIncome = d3.select("#gross-income").html();
+            // Calculate numbers
+            const federalTax = Math.floor(currentState.calculateFederalTax(grossIncome))
+            const socialSecurityTax = Math.floor(currentState.calculateSocialSecurityTax(grossIncome))
+            const medicareTax = Math.floor(currentState.calculateMedicareTax(grossIncome))
+            const stateTax = Math.floor(currentState.calculateStateTax(currentState.name, grossIncome))
 
-    
+            document.getElementById("myModal").style.display = "block"
 
-        // create div
-        // mouseover, mousemove, mouseout, click
+            renderChart(federalTax, socialSecurityTax, medicareTax, stateTax);
+
+        })
 }
 
-// export {renderMap, render};
 export default renderMap;
 
 // hover should show: state name, gross income, marginal tax rate, tax owed, net income

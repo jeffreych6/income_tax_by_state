@@ -4,7 +4,7 @@
 }
 
 .state {
-    fill: gray;
+    fill: #808080;
     stroke: black;
     stroke-width: 0.5;
 }
@@ -12,9 +12,6 @@
 .selected {
     fill: yellow;
     cursor: pointer;
-
-    height: 110%;
-    width: 110%;
 }
 
 #slider-container {
@@ -23,7 +20,109 @@
     align-items: center;
 }
 
+#slider[type="range"] {
+    -webkit-appearance: none;
+    width: 600px;
+}
+   
+#slider[type="range"]:focus {
+    outline: none;
+}
+
+#slider[type="range"]::-webkit-slider-runnable-track {
+    background: white;
+    height: 5px;
+    border: 1px solid black;
+    width: 200px;
+}
+
+#slider[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 15px;
+    width: 15px;
+    background: gray;
+    margin-top: -5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#slider[type="range"]::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    background: gray;
+    margin-top: -5px;
+    border-radius: 50%;
+}
+
 #value {
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+#nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#nav-bar a {
+    padding: 5px;
+    font-size: 30px;
+    color: gray;
+}
+
+#nav-bar a:last-child {
+    margin-right: 10px;
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+}
+
+#gross-income {
+    margin-left: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: gray;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
