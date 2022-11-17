@@ -1,6 +1,6 @@
 import usStatesMap from "../../data/states_10m.json";
 import renderChart from "./chart";
-import State from "./example";
+import State from "./calculations";
 
 const renderMap = () => {
 
