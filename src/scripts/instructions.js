@@ -11,7 +11,7 @@ const renderInstructions = () => {
 
     d3.select("#instructions")
     .append("p")
-    .text("The goal of this application is to provide users a simple way of estimating their taxes for a given income.")
+    .text("The goal of this application is to provide users a simple way of estimating taxes for a given income, filing status, and employment status. Users may adjust their inputs by using the slider and buttons below the map. Please be aware that this app does NOT include city/county tax or other tax adjustments and only provides an ESTIMATE!")
 
     d3.select("#instructions")
     .append("li")
@@ -19,11 +19,15 @@ const renderInstructions = () => {
 
     d3.select("#instructions")
     .append("li")
-    .text("Hover over any state to view quick tax information for that state")
+    .text("Select your filing status and employment status with the buttons")
 
     d3.select("#instructions")
     .append("li")
-    .text("Click on any state to view more tax details for that state")
+    .text("Hover over any state to view estimated tax owed and net income for that state")
+
+    d3.select("#instructions")
+    .append("li")
+    .text("Click on any state to view additional tax details for that state")
 }
 
 export default renderInstructions

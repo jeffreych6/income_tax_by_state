@@ -4,7 +4,6 @@
 #map {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
 }
 
 .state {
@@ -23,8 +22,16 @@
   width: 700px;
 }
 #input-container h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: gray;
   display: flex;
   justify-content: center;
+}
+#input-container div {
+  font-family: Arial, Helvetica, sans-serif;
+  color: gray;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 #slider-container {
@@ -68,6 +75,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+#nav-bar h1 {
+  margin-left: 20px;
 }
 #nav-bar i {
   padding: 10px;
@@ -113,8 +123,8 @@ h1 {
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
+  border-radius: 10px;
   width: 50%; /* Could be more or less, depending on screen size */
-  list-style: none;
 }
 .modal-content #instructions {
   font-family: Arial, Helvetica, sans-serif;
@@ -124,6 +134,7 @@ h1 {
   align-self: center;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 17px;
+  list-style: none;
 }
 
 /* The Close Button */

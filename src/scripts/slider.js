@@ -1,5 +1,5 @@
 const renderSlider = () => {
-    
+
     d3.select("#slider-container")
         .append("input")
         .attr("id", "slider")

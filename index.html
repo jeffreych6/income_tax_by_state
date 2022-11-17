@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./dist/main.css" />
     <link rel="stylesheet" href="./src/styles/map.scss" />
+    <link rel="icon" type="image/x-icon" href="images/Calculator.ico">
     <script src="./dist/main.js" defer></script>
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
@@ -16,7 +17,7 @@
 
   <body>
     <nav id="nav-bar">
-      <h1>Income Tax Calculator for Single Individuals Only</h1>
+      <h1>Income Tax Calculator</h1>
       <div>
         <i id = "instruction-button" class="fa-solid fa-circle-info"></i>
         <a href="https://github.com/jeffreych6"><i class="fa-brands fa-github"></i></a>
@@ -28,6 +29,18 @@
     <div id="input-container">
       <h3>Gross Income</h3>
       <div id="slider-container"></div>
+      <h3>Filing Status</h3>
+      <div id="filing-status">
+        <label><input type="radio" name="filingStatus" value="single" checked text="Single"> Single</label>
+        <label><input type="radio" name="filingStatus" value="married"> Married</label>
+        <label><input type="radio" name="filingStatus" value="married_separately"> Married Filing Separately</label>
+        <label><input type="radio" name="filingStatus" value="head_of_household"> Head of Household</label>
+      </div>
+      <h3>Employment Status</h3>
+      <div id="employment -status">
+        <label><input type="radio" name="employmentStatus" value="employed" checked> Employee</label>
+        <label><input type="radio" name="employmentStatus" value="self_employed"> Self Employed</label>
+      </div>
     </div> 
     <div id="states"></div>
 

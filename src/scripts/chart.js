@@ -1,13 +1,24 @@
-const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medicareTax, stateTax) => {
+const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medicareTax, stateTax, federalTaxRate, stateTaxRate) => {
 
-    const data = {"Federal Tax": federalTax, "Social Security Tax": socialSecurityTax, "Medicare Tax": medicareTax}
+    const data = {}
 
-    // Check if there is state tax
-
+    // Check if there is tax exists
+    const checkFederalTax = function(federalTax) {
+        if (federalTax > 0) return data["Federal Tax"] = federalTax;
+    }
+    const checkSocialSecurityTax = function(socialSecurityTax) {
+        if (socialSecurityTax > 0) return data["Social Security Tax"] = socialSecurityTax
+    }
+    const checkMedicareTax = function(medicareTax) {
+        if (medicareTax > 0) return data["Medicare Tax"] = medicareTax;
+    }
     const checkStateIncomeTax = function(stateTax) {
         if (stateTax > 0) return data["State Tax"] = stateTax;
     }
 
+    checkFederalTax(federalTax);
+    checkSocialSecurityTax(socialSecurityTax);
+    checkMedicareTax(medicareTax)
     checkStateIncomeTax(stateTax);
 
     // Calculate total tax owed for percentage calculations
@@ -17,14 +28,15 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
     }
 
     const rows = [
-    `Gross Income.........................$${Number(grossIncome).toLocaleString("en-US")}`, 
-    `Federal Tax.............................$${federalTax.toLocaleString("en-US")}`, 
-    `Social Security Tax....$${socialSecurityTax.toLocaleString("en-US")}`,
-    `Medicare Tax.............$${medicareTax.toLocaleString("en-US")}`,
-    `FICA Tax.................................$${(medicareTax + socialSecurityTax).toLocaleString("en-US")}`,
-    `State Tax.................................$${stateTax.toLocaleString("en-US")}`,
-    `Net Income.............................$${(Number(grossIncome) - totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)).toLocaleString("en-US")}`,
-    `Tax Owed................................$${totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax).toLocaleString("en-US")}`,
+    `Gross Income................................$${Number(grossIncome).toLocaleString("en-US")}`, 
+    `Federal Tax (${federalTaxRate}%)....................$${federalTax.toLocaleString("en-US")}`, 
+    `Social Security Tax..........$${socialSecurityTax.toLocaleString("en-US")}`,
+    `Medicare Tax...................$${medicareTax.toLocaleString("en-US")}`,
+    `FICA Tax........................................$${(medicareTax + socialSecurityTax).toLocaleString("en-US")}`,
+    `State Tax (${stateTaxRate}%)..........................$${stateTax.toLocaleString("en-US")}`,
+    `Net Income....................................$${(Number(grossIncome) - totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)).toLocaleString("en-US")}`,
+    "<br>",
+    `Tax Owed......................................$${totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax).toLocaleString("en-US")}`
     ]
 
     d3.select(".modal-content")
@@ -79,7 +91,7 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
     .selectAll('mySlices')
     .data(data_ready)
     .join('text')
-    .text(function(d){ return d.data[0] +`${(Number.parseFloat((d.data[1] / totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)) * 100).toFixed(2))}%`})
+    .text(function(d){ return d.data[0] + ` ${(Number.parseFloat((d.data[1] / totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)) * 100).toFixed(2))}%`})
     .attr("transform", function(d) { return `translate(${arcGenerator.centroid(d)})`})
     .style("text-anchor", "middle")
     .style("font-size", 17)
