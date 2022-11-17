@@ -5,7 +5,7 @@ const renderSlider = () => {
         .attr("id", "slider")
         .attr("type", "range")
         .attr("min", 1000)
-        .attr("max", 300000)
+        .attr("max", 500000)
         .attr("value", 100000)
         .attr("step", 1000)
         .on("input", function(e) {
