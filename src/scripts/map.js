@@ -11,12 +11,16 @@ const renderMap = () => {
     d3.select("body")
         .append("div")
         .attr("id", "tooltip")
-        .style("text-align", "left")
-        .style("padding", "16px")
+        .style("display", "flex")
+        .style("flex-direction", "column")
+        .style("align-items", "center")
+        .style("font-family", "arial")
+        .style("padding-right", "35px")
+        .style("opacity", 0.9)
         .style("background-color", "white")
         .style("border", "1px solid black")
+        .style("border-radius", "10px")
         .style("width", "auto")
-        .style("opacity", 0)
         .style("color", "black")
         .style("position", "absolute")
         .style("z-index", 3);
@@ -36,8 +40,6 @@ const renderMap = () => {
         .projection(projection)
 
     const states = topojson.feature(usStatesMap, usStatesMap.objects.states).features;
-    console.log(states)
-    
 
     svg.selectAll(".path")
         .data(states)
@@ -51,47 +53,71 @@ const renderMap = () => {
 
             // Hover tooltip box
             d3.select("#tooltip")
-            .style("left", `${d3.pointer(d)[0]}px`)
-            .style("top", `${d3.pointer(d)[1]}px`)
-            .style("opacity", 1);
+            .style("opacity", 0.9);
 
             console.log(d)
             // Create state object
             const currentState = new State(d)
 
             // Get income data
-            const grossIncome = d3.select("#gross-income").html();
+            const grossIncome = Number(d3.select("#gross-income").html());
             
+
+            const tooltipRows = [
+                // `${(currentState.titleize(currentState.name))}`,
+                `Gross Income: $${grossIncome.toLocaleString("en-US")}`, 
+                `Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`,
+                `Net Income: $${Math.floor(grossIncome - (currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(currentState.name, grossIncome))).toLocaleString("en-US")}`,
+            ]
+
             // Display calculated information in hover tooltip box
             d3.select("#hoverBoxContainer").remove()
+            d3.select("#hoverBoxName").remove()
+
             d3.select("#tooltip")
             .append("div")
-            .attr("id", "hoverBoxContainer")
-            .append("div")
-            .text(`${currentState.titleize(currentState.name)}`)
+            .attr("id", "hoverBoxName")
             .style("font-weight", "bold")
-            .append("div")
-            .text(`Gross Income: $${grossIncome.toLocaleString("en-US")}`)
-            .append("div")
-            .text(`Standard Deduction: $${currentState.calculateStandardDeduction().toLocaleString("en-US")}`)
-            .append("div")
-            .text(`Federal Income Tax: $${Math.floor(currentState.calculateFederalTax(grossIncome)).toLocaleString("en-US")}`)
-            .append("div")
-            .text(`FICA Tax: $${Math.floor(currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome)).toLocaleString("en-US")}`) 
-            .append("div")
-            .text(`State Tax: $${Math.floor(currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
-            .append("div")
-            .text(`State Standard Deduction: $${currentState.calculateStateStandardDeduction(currentState.name).toLocaleString("en-US")}`)
-            .append("div")
-            .text(`Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
-            .append("div")
-            .text(`Net Income: $${Math.floor(grossIncome - currentState.calculateFederalTax(grossIncome) - currentState.calculateSocialSecurityTax(grossIncome) - currentState.calculateMedicareTax(grossIncome) - currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
+            .style("padding-top", "20px")
+
+            .text(`${(currentState.titleize(currentState.name))}`)
+
+            d3.select("#tooltip")
+            .append("ul")
+            .attr("id", "hoverBoxContainer")
+            .selectAll("li")
+            .data(tooltipRows)
+            .enter()
+            .append("li")
+            .html(String);
+
+            // d3.select("#tooltip")
+            // .append("div")
+            // .attr("id", "hoverBoxContainer")
+            // .append("div")
+            // .text(`${currentState.titleize(currentState.name)}`)
+            // .style("font-weight", "bold")
+            // .append("div")
+            // .text(`Gross Income: $${grossIncome.toLocaleString("en-US")}`)
+            // .append("div")
+            // .text(`Standard Deduction: $${currentState.calculateStandardDeduction().toLocaleString("en-US")}`)
+            // .append("div")
+            // .text(`Federal Income Tax: $${Math.floor(currentState.calculateFederalTax(grossIncome)).toLocaleString("en-US")}`)
+            // .append("div")
+            // .text(`FICA Tax: $${Math.floor(currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome)).toLocaleString("en-US")}`) 
+            // .append("div")
+            // .text(`State Tax: $${Math.floor(currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
+            // .append("div")
+            // .text(`State Standard Deduction: $${currentState.calculateStateStandardDeduction(currentState.name).toLocaleString("en-US")}`)
+            // .append("div")
+            // .text(`Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome) + currentState.calculateSocialSecurityTax(grossIncome) + currentState.calculateMedicareTax(grossIncome) + currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
+            // .append("div")
+            // .text(`Net Income: $${Math.floor(grossIncome - currentState.calculateFederalTax(grossIncome) - currentState.calculateSocialSecurityTax(grossIncome) - currentState.calculateMedicareTax(grossIncome) - currentState.calculateStateTax(currentState.name, grossIncome)).toLocaleString("en-US")}`)
         })
         .on("mouseout", function(d) {
             d3.select(this).classed("selected", false);
             d3.select("#tooltip").style("opacity", 0)
         })
-
         .on("mousemove", function(d) {
             d3.select("#tooltip")
             .style("left", `${d3.pointer(d)[0]}px`)
@@ -100,6 +126,8 @@ const renderMap = () => {
         .on("click", function(d) {
             // Reset chart
             d3.select("#pieChart").remove()
+            d3.select("#detailedBreakdown").remove()
+            d3.select("#instructions").remove()
             // Create state object
             const currentState = new State(d)
             // Get income data
@@ -112,7 +140,7 @@ const renderMap = () => {
 
             document.getElementById("myModal").style.display = "block"
 
-            renderChart(federalTax, socialSecurityTax, medicareTax, stateTax);
+            renderChart(currentState.titleize(currentState.name), grossIncome, federalTax, socialSecurityTax, medicareTax, stateTax);
 
         })
 }

@@ -1,5 +1,5 @@
 const renderSlider = () => {
-
+    
     d3.select("#slider-container")
         .append("input")
         .attr("id", "slider")
@@ -10,13 +10,14 @@ const renderSlider = () => {
         .attr("step", 1000)
         .on("input", function(e) {
             const grossIncome = this.value;
-            d3.select("#gross-income").html(grossIncome);
+            d3.select("#gross-income")
+            .html(grossIncome)
         })
 
     d3.select("#slider-container")
         .append("div")
         .attr("id", "gross-income")
-        .html(100000);
+        .html(100000)
 }
 
 export default renderSlider;

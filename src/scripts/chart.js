@@ -1,23 +1,5 @@
-const renderChart = (federalTax, socialSecurityTax, medicareTax, stateTax) => {
-    // set the dimensions and margins of the graph
-    const width = 450,
-    height = 450,
-    margin = 40;
+const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medicareTax, stateTax) => {
 
-    // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-    const radius = Math.min(width, height) / 2 - margin
-
-    // append the svg object to the div called 'my_dataviz'
-    const svg = d3.select(".modal-content")
-    .append("svg")
-    .attr("id", "pieChart")
-    .attr("width", width)
-    .attr("height", height)
-    .append("g")
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-    // Create dummy data
-    // const data = {a: 9, b: 20, c:30, d:8, e:12}
     const data = {"Federal Tax": federalTax, "Social Security Tax": socialSecurityTax, "Medicare Tax": medicareTax}
 
     // Check if there is state tax
@@ -34,22 +16,55 @@ const renderChart = (federalTax, socialSecurityTax, medicareTax, stateTax) => {
         return federalTax + socialSecurityTax + medicareTax + stateTax;
     }
 
-    // set the color scale
+    const rows = [
+    `Gross Income.........................$${Number(grossIncome).toLocaleString("en-US")}`, 
+    `Federal Tax.............................$${federalTax.toLocaleString("en-US")}`, 
+    `Social Security Tax....$${socialSecurityTax.toLocaleString("en-US")}`,
+    `Medicare Tax.............$${medicareTax.toLocaleString("en-US")}`,
+    `FICA Tax.................................$${(medicareTax + socialSecurityTax).toLocaleString("en-US")}`,
+    `State Tax.................................$${stateTax.toLocaleString("en-US")}`,
+    `Net Income.............................$${(Number(grossIncome) - totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)).toLocaleString("en-US")}`,
+    `Tax Owed................................$${totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax).toLocaleString("en-US")}`,
+    ]
+
+    d3.select(".modal-content")
+    .append("div")
+    .attr("id", "detailedBreakdown")
+    .append("h3")
+    .text(`${stateName}`)
+
+    d3.select("#detailedBreakdown")
+    .selectAll("li")
+    .data(rows)
+    .enter()
+    .append("li")
+    .html(String);
+
+    const width = 450,
+    height = 450,
+    margin = 40;
+
+    const radius = Math.min(width, height) / 2 - margin
+
+    const svg = d3.select(".modal-content")
+    .append("svg")
+    .attr("id", "pieChart")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
     const color = d3.scaleOrdinal()
     .range(d3.schemeSet2);
 
-    // Compute the position of each group on the pie:
     const pie = d3.pie()
     .value(function(d) {return d[1]})
     const data_ready = pie(Object.entries(data))
-    // Now I know that group A goes from 0 degrees to x degrees and so on.
 
-    // shape helper to build arcs:
     const arcGenerator = d3.arc()
     .innerRadius(0)
     .outerRadius(radius)
 
-    // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
     svg
     .selectAll('mySlices')
     .data(data_ready)
@@ -60,12 +75,11 @@ const renderChart = (federalTax, socialSecurityTax, medicareTax, stateTax) => {
     .style("stroke-width", "2px")
     .style("opacity", 0.7)
 
-    // Now add the annotation. Use the centroid method to get the best coordinates
     svg
     .selectAll('mySlices')
     .data(data_ready)
     .join('text')
-    .text(function(d){ return d.data[0] + `${(Number.parseFloat((d.data[1] / totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)) * 100).toFixed(2))}%`})
+    .text(function(d){ return d.data[0] +`${(Number.parseFloat((d.data[1] / totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)) * 100).toFixed(2))}%`})
     .attr("transform", function(d) { return `translate(${arcGenerator.centroid(d)})`})
     .style("text-anchor", "middle")
     .style("font-size", 17)
@@ -73,4 +87,3 @@ const renderChart = (federalTax, socialSecurityTax, medicareTax, stateTax) => {
 
 export default renderChart;
 
-// create detailed breakdown information

@@ -11,31 +11,30 @@
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
     <script src="https://kit.fontawesome.com/f979fa5309.js" crossorigin="anonymous"></script>
-    <title>Project Name</title>
+    <title>Income Tax Calculator</title>
   </head>
 
   <body>
     <nav id="nav-bar">
       <h1>Income Tax Calculator for Single Individuals Only</h1>
       <div>
-        <a href="#"><i class="fa-solid fa-circle-info"></i></a>
+        <i id = "instruction-button" class="fa-solid fa-circle-info"></i>
         <a href="https://github.com/jeffreych6"><i class="fa-brands fa-github"></i></a>
         <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>  
+        <a href="https://github.com/jeffreych6/income_tax_by_state/blob/main/README.md"><i class="fa-solid fa-book-open-reader"></i></i></a>  
       </div>
     </nav>
     <div id="map"></div>
-    <div id="slider-container"></div> 
+    <div id="input-container">
+      <h3>Gross Income</h3>
+      <div id="slider-container"></div>
+    </div> 
     <div id="states"></div>
-    <div id="my_dataviz"></div>
 
     <div id="myModal" class="modal">
-
-      <!-- Modal content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
       </div>
-    
     </div>
 
   </body>
