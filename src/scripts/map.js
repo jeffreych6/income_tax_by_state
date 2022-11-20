@@ -16,7 +16,7 @@ const renderMap = () => {
         .style("align-items", "center")
         .style("font-family", "arial")
         .style("padding-right", "35px")
-        .style("opacity", 0.9)
+        .style("opacity", 0)
         .style("background-color", "white")
         .style("border", "1px solid black")
         .style("border-radius", "10px")
