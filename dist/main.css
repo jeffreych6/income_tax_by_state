@@ -1,26 +1,6 @@
 /*!*************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
   \*************************************************************************************************************************************/
-body {
-  background-color: rgb(230, 230, 230);
-}
-
-#map {
-  display: flex;
-  justify-content: center;
-}
-
-.state {
-  fill: #808080;
-  stroke: black;
-  stroke-width: 0.5;
-}
-
-.selected {
-  fill: yellow;
-  cursor: pointer;
-}
-
 #input-container {
   margin: auto;
   width: 700px;
@@ -76,6 +56,26 @@ body {
 #value {
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: rgb(230, 230, 230);
+}
+
+#map {
+  display: flex;
+  justify-content: center;
+}
+
+.state {
+  fill: #808080;
+  stroke: black;
+  stroke-width: 0.5;
+}
+
+.selected {
+  fill: yellow;
+  cursor: pointer;
 }
 
 #nav-bar {
@@ -158,4 +158,19 @@ h1 {
 
 ul {
   list-style: none;
+}
+
+#tooltip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  opacity: 0;
+  padding-right: 35px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  color: black;
+  position: absolute;
+  z-index: 3;
 }
