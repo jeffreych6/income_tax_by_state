@@ -11,6 +11,7 @@ const renderMap = () => {
     d3.select("body")
         .append("div")
         .attr("id", "tooltip")
+        .style("display", "none");
 
     const svg = d3.select("#map")
         .append("svg")
@@ -40,7 +41,7 @@ const renderMap = () => {
 
             // Hover tooltip box
             d3.select("#tooltip")
-            .style("opacity", 0.9);
+            .style("display", "flex");
 
             // Create state object
             const filingStatus = d3.select("input[name='filingStatus']:checked").node().value
@@ -85,14 +86,16 @@ const renderMap = () => {
             .append("li")
             .html(String);
         })
-        .on("mouseout", function(d) {
+        .on("mouseout", function(event, d) {
             d3.select(this).classed("selected", false);
-            d3.select("#tooltip").style("opacity", 0)
+            d3.select("#tooltip").style("display", "none")
+            .style("left", (event.pageX) + "px")
+            .style("top", (event.pageY + 20) + "px");
         })
-        .on("mousemove", function(d) {
+        .on("mousemove", function(event, d) {
             d3.select("#tooltip")
-            .style("left", `${d3.pointer(d)[0] + 150}px`)
-            .style("top", `${d3.pointer(d)[1] - 50}px`)
+            .style("left", (event.pageX) + "px")
+            .style("top", (event.pageY + 20) + "px");
         })
         .on("click", function(d) {
             // Reset modal

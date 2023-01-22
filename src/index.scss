@@ -117,12 +117,11 @@ ul {
     flex-direction: column;
     align-items: center;
     font-family: Arial, Helvetica, sans-serif;
-    opacity: 0;
     padding-right: 35px;
     background-color: white;
     border: 1px solid black;
     border-radius: 10px;
     color: black;
     position: absolute;
-    z-index: 3
+    z-index: 0;
 }
