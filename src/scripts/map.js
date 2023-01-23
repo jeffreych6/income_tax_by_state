@@ -7,10 +7,10 @@ const renderMap = () => {
     const height = 500;
     const width = 900;
 
-    // Create tooltip box
+    // Create a hover box
     d3.select("body")
         .append("div")
-        .attr("id", "tooltip")
+        .attr("id", "hoverBox")
         .style("display", "none");
 
     const svg = d3.select("#map")
@@ -39,9 +39,9 @@ const renderMap = () => {
             // Hover color
             d3.select(this).classed("selected", true);
 
-            // Hover tooltip box
-            d3.select("#tooltip")
-            .style("display", "flex");
+            // Hover hoverbox box
+            d3.select("#hoverBox")
+            .style("display", "block");
 
             // Create state object
             const filingStatus = d3.select("input[name='filingStatus']:checked").node().value
@@ -51,7 +51,7 @@ const renderMap = () => {
             // Get income data
             const grossIncome = Number(d3.select("#gross-income").html());
 
-            const tooltipRows = [
+            const hoverBoxRows = [
                 `State Tax Rate: ${Number.parseFloat(currentState.calculateStateMarginalTaxRate(currentState.name, grossIncome, filingStatus)).toFixed(2)}%`,
                 "<br>", 
                 `Gross Income: $${grossIncome.toLocaleString("en-US")}`,
@@ -66,36 +66,40 @@ const renderMap = () => {
                     + currentState.calculateStateTax(currentState.name, grossIncome, filingStatus))).toLocaleString("en-US")}`,
             ]
 
-            // Display calculated information in hover tooltip box
+            // Display calculated information in hover hoverbox box
             d3.select("#hoverBoxContainer").remove()
             d3.select("#hoverBoxName").remove()
+            d3.select("#hoverBoxDetails").remove()
 
-            d3.select("#tooltip")
+            d3.select("#hoverBox")
             .append("div")
-            .attr("id", "hoverBoxName")
-            .style("font-weight", "bold")
-            .style("padding-top", "20px")
+            .attr("id", "hoverBoxContainer")
+
+            d3.select("#hoverBoxContainer")
+            .append("div")
+            .attr("id", "hoverBoxStateName")
             .text(`${(currentState.titleize(currentState.name))}`)
 
-            d3.select("#tooltip")
+            d3.select("#hoverBoxContainer")
             .append("ul")
-            .attr("id", "hoverBoxContainer")
+            .attr("id", "hoverBoxDetails")
             .selectAll("li")
-            .data(tooltipRows)
+            .data(hoverBoxRows)
             .enter()
             .append("li")
             .html(String);
         })
         .on("mouseout", function(event, d) {
             d3.select(this).classed("selected", false);
-            d3.select("#tooltip").style("display", "none")
-            .style("left", (event.pageX) + "px")
-            .style("top", (event.pageY + 20) + "px");
+            d3.select("#hoverBox").style("display", "none")
+            .style("left", `${event.pageX + 5}px`)
+            .style("top", `${event.pageY + 15}px`);
         })
         .on("mousemove", function(event, d) {
-            d3.select("#tooltip")
-            .style("left", (event.pageX) + "px")
-            .style("top", (event.pageY + 20) + "px");
+            d3.select("#hoverBox")
+            .style("left", `${event.pageX + 5}px`)
+            .style("top", `${event.pageY + 15}px`);
+
         })
         .on("click", function(d) {
             // Reset modal

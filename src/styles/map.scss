@@ -1,3 +1,42 @@
+#map {
+    display: flex;
+    justify-content: center;
+}
+
 .state {
-    fill: gray
+    fill: #808080;
+    stroke: black;
+    stroke-width: 0.5;
+}
+
+.selected {
+    fill: yellow;
+    cursor: pointer;
+}
+
+#hoverBox {
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    position: absolute;
+}
+
+#hoverBoxContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+#hoverBoxStateName {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+#hoverBoxDetails {
+    line-height: 20px;
 }

@@ -1,34 +1,21 @@
+@import "./styles/reset.scss";
 @import "./styles/inputs.scss";
-
-
+@import "./styles/map.scss";
 
 body {
+    font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(230, 230, 230)
-}
-
-#map {
-    display: flex;
-    justify-content: center;
-}
-
-.state {
-    fill: #808080;
-    stroke: black;
-    stroke-width: 0.5;
-}
-
-.selected {
-    fill: yellow;
-    cursor: pointer;
 }
 
 #nav-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 20px 40px;
 
     h1 {
-        margin-left: 20px;
+        font-size: 28px;
+        font-weight: 600;
     }
 
     i {
@@ -37,13 +24,7 @@ body {
         color: gray;
         cursor: pointer;
     }
-
-    a:last-child {
-        margin-right: 20px;
-    }
 }
-
-
 
 h1 {
     font-family: Arial, Helvetica, sans-serif;
@@ -112,16 +93,3 @@ ul {
     list-style: none;
 }
 
-#tooltip {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, Helvetica, sans-serif;
-    padding-right: 35px;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 10px;
-    color: black;
-    position: absolute;
-    z-index: 0;
-}
