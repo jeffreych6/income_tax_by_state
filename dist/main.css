@@ -188,7 +188,7 @@ table {
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
-  min-width: 1120px;
+  min-width: 1176px;
   width: 60%;
 }
 .modal-content #instructions {
@@ -212,7 +212,7 @@ table {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 40%;
+  width: 35%;
 }
 .modal-content #modal-state {
   font-size: 18px;
