@@ -55,15 +55,15 @@ const renderMap = () => {
                 `State Tax Rate: ${Number.parseFloat(currentState.calculateStateMarginalTaxRate(currentState.name, grossIncome, filingStatus)).toFixed(2)}%`,
                 "<br>", 
                 `Gross Income: $${grossIncome.toLocaleString("en-US")}`,
-                `Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome, filingStatus) 
-                    + currentState.calculateSocialSecurityTax(grossIncome, employmentStatus) 
-                    + currentState.calculateMedicareTax(grossIncome, employmentStatus) 
-                    + currentState.calculateStateTax(currentState.name, grossIncome, filingStatus)).toLocaleString("en-US")}`,
                 `Net Income: $${Math.floor(grossIncome 
                     - (currentState.calculateFederalTax(grossIncome, filingStatus) 
                     + currentState.calculateSocialSecurityTax(grossIncome, employmentStatus) 
                     + currentState.calculateMedicareTax(grossIncome, employmentStatus) 
                     + currentState.calculateStateTax(currentState.name, grossIncome, filingStatus))).toLocaleString("en-US")}`,
+                `Estimated Tax Owed: $${Math.floor(currentState.calculateFederalTax(grossIncome, filingStatus) 
+                    + currentState.calculateSocialSecurityTax(grossIncome, employmentStatus) 
+                    + currentState.calculateMedicareTax(grossIncome, employmentStatus) 
+                    + currentState.calculateStateTax(currentState.name, grossIncome, filingStatus)).toLocaleString("en-US")}`
             ]
 
             // Display calculated information in hover hoverbox box
