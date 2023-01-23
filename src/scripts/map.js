@@ -104,7 +104,7 @@ const renderMap = () => {
         .on("click", function(d) {
             // Reset modal
             d3.select("#pieChart").remove()
-            d3.select("#detailedBreakdown").remove()
+            d3.select("#detailed-breakdown-container").remove()
             d3.select("#instructions").remove()
 
             // Create state object

@@ -210,23 +210,64 @@ h1 {
 
 .modal-content {
   display: flex;
-  justify-content: space-evenly;
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
-  width: 50%;
+  min-width: 1120px;
+  width: 60%;
 }
 .modal-content #instructions {
+  display: flex;
+  flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 17px;
+  font-size: 16px;
+  margin: 30px 0;
+  line-height: 20px;
 }
-.modal-content #detailedBreakdown {
-  align-self: center;
+.modal-content #instructions h1 {
+  color: black;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.modal-content #instructions p {
+  margin-bottom: 10px;
+}
+.modal-content #detailed-breakdown-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+}
+.modal-content #modal-state {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0;
+}
+.modal-content #detailed-breakdown {
+  display: flex;
+  justify-content: space-between;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 17px;
-  list-style: none;
+  font-size: 16px;
+  line-height: 20px;
+}
+.modal-content #detail-categories li:last-child {
+  font-weight: 600;
+}
+.modal-content #detail-values li:nth-child(3) {
+  margin-left: -70px;
+}
+.modal-content #detail-values li:nth-child(4) {
+  margin-left: -70px;
+  text-decoration: underline;
+}
+.modal-content #detail-values li:nth-child(6) {
+  text-decoration: underline;
+}
+.modal-content #detail-values li:last-child {
+  font-weight: 600;
 }
 
 .close {
@@ -243,6 +284,6 @@ h1 {
   cursor: pointer;
 }
 
-ul {
-  list-style: none;
+#pieChart text {
+  font-size: 16px;
 }

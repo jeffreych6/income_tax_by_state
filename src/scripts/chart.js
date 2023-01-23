@@ -27,27 +27,53 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
         return federalTax + socialSecurityTax + medicareTax + stateTax;
     }
 
-    const rows = [
-    `Gross Income................................$${Number(grossIncome).toLocaleString("en-US")}`, 
-    `Federal Tax (${federalTaxRate}%)....................$${federalTax.toLocaleString("en-US")}`, 
-    `Social Security Tax..........$${socialSecurityTax.toLocaleString("en-US")}`,
-    `Medicare Tax...................$${medicareTax.toLocaleString("en-US")}`,
-    `FICA Tax........................................$${(medicareTax + socialSecurityTax).toLocaleString("en-US")}`,
-    `State Tax (${stateTaxRate}%)..........................$${stateTax.toLocaleString("en-US")}`,
-    `Net Income....................................$${(Number(grossIncome) - totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)).toLocaleString("en-US")}`,
-    "<br>",
-    `Tax Owed......................................$${totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax).toLocaleString("en-US")}`
+    const categories = [
+        `Gross Income`,
+        `Federal Tax (${federalTaxRate}%)`,
+        `Social Security Tax`,
+        `Medicare Tax`,
+        `FICA Tax`,
+        `State Tax (${stateTaxRate}%)`,
+        `Net Income`,
+        "<br>",
+        `Estimated Tax Owed`
+    ]
+
+    const values = [
+        `$${Number(grossIncome).toLocaleString("en-US")}`, 
+        `$${federalTax.toLocaleString("en-US")}`, 
+        `$${socialSecurityTax.toLocaleString("en-US")}`,
+        `$${medicareTax.toLocaleString("en-US")}`,
+        `$${(medicareTax + socialSecurityTax).toLocaleString("en-US")}`,
+        `$${stateTax.toLocaleString("en-US")}`,
+        `$${(Number(grossIncome) - totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)).toLocaleString("en-US")}`,
+        "<br>",
+        `$${totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax).toLocaleString("en-US")}`
     ]
 
     d3.select(".modal-content")
     .append("div")
-    .attr("id", "detailedBreakdown")
-    .append("h3")
+    .attr("id", "detailed-breakdown-container")
+    .append("div")
+    .attr("id", "modal-state")
     .text(`${stateName}`)
 
-    d3.select("#detailedBreakdown")
+    d3.select("#detailed-breakdown-container")
+    .append("div")
+    .attr("id", "detailed-breakdown")
+    .append("ul")
+    .attr("id", "detail-categories")
     .selectAll("li")
-    .data(rows)
+    .data(categories)
+    .enter()
+    .append("li")
+    .html(String);
+
+    d3.select("#detailed-breakdown")
+    .append("ul")
+    .attr("id", "detail-values")
+    .selectAll("li")
+    .data(values)
     .enter()
     .append("li")
     .html(String);
@@ -97,7 +123,7 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
     // .style("font-size", 17)
 
     // set the dimensions and margins of the graph
-    const width = 450,
+    const width = 800,
     height = 450,
     margin = 40;
 
@@ -131,8 +157,8 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
 
     // Another arc that won't be drawn. Just for labels positioning
     const outerArc = d3.arc()
-    .innerRadius(radius * 0.9)
-    .outerRadius(radius * 0.9)
+    .innerRadius(radius * 0.8)
+    .outerRadius(radius * 0.8)
 
     // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
     svg
@@ -158,7 +184,7 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
     const posB = outerArc.centroid(d) // line break: we use the other arc generator that has been built only for that
     const posC = outerArc.centroid(d); // Label position = almost the same as posB
     const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2 // we need the angle to see if the X position will be at the extreme right or extreme left
-    posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+    posC[0] = radius * 0.85 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
     return [posA, posB, posC]
     })
 
@@ -167,11 +193,11 @@ const renderChart = (stateName, grossIncome, federalTax, socialSecurityTax, medi
     .selectAll('allLabels')
     .data(data_ready)
     .join('text')
-    .text(d => d.data[0])
+    .text(d => `${d.data[0]} (${(Number.parseFloat((d.data[1] / totalTaxOwed(federalTax, socialSecurityTax, medicareTax, stateTax)) * 100).toFixed(0))}%)`)
     .attr('transform', function(d) {
         const pos = outerArc.centroid(d);
         const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
-        pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+        pos[0] = radius * 0.89 * (midangle < Math.PI ? 1 : -1);
         return `translate(${pos})`;
     })
     .style('text-anchor', function(d) {

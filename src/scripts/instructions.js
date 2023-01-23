@@ -1,18 +1,22 @@
 const renderInstructions = () => {
     d3.select("#pieChart").remove()
-    d3.select("#detailedBreakdown").remove()
+    d3.select("#detailed-breakdown-container").remove()
     d3.select("#instructions").remove()
 
     d3.select(".modal-content")
     .append("div")
     .attr("id", "instructions")
-    .append("h3")
+    .append("h1")
     .text("Income Tax Calculator")
 
     d3.select("#instructions")
     .append("p")
-    .text("The goal of this application is to provide users a simple way of estimating taxes for a given income, filing status, and employment status. Users may adjust their inputs by using the slider and buttons below the map. Please be aware that this app does NOT include city/county tax or other tax adjustments and only provides an ESTIMATE!")
+    .text("The goal of this application is to provide users a simple way of estimating taxes for a given income, filing status, and employment status. Users may adjust their inputs using the slider and buttons below the map.")
 
+    d3.select("#instructions")
+    .append("p")
+    .text("NOTE: This app does NOT include city/county tax and several other tax adjustments and only provides an ESTIMATE!")
+    
     d3.select("#instructions")
     .append("li")
     .text("Adjust your gross income by dragging the slider thumb on the income slider")
