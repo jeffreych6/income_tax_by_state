@@ -113,6 +113,13 @@ table {
   cursor: pointer;
 }
 
+#gross-income {
+  margin-left: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: gray;
+}
+
 #value {
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
@@ -159,40 +166,6 @@ table {
 
 #hoverBoxDetails {
   line-height: 20px;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: rgb(230, 230, 230);
-}
-
-#nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 40px;
-}
-#nav-bar h1 {
-  font-size: 28px;
-  font-weight: 600;
-}
-#nav-bar i {
-  padding: 10px;
-  font-size: 30px;
-  color: gray;
-  cursor: pointer;
-}
-
-h1 {
-  font-family: Arial, Helvetica, sans-serif;
-  color: gray;
-}
-
-#gross-income {
-  margin-left: 10px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  color: gray;
 }
 
 .modal {
@@ -286,4 +259,27 @@ h1 {
 
 #pieChart text {
   font-size: 16px;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(230, 230, 230);
+}
+
+#nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 40px;
+  color: gray;
+}
+#nav-bar h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+#nav-bar i {
+  padding: 10px;
+  font-size: 30px;
+  color: gray;
+  cursor: pointer;
 }

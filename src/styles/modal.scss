@@ -1,53 +1,105 @@
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4); 
+  display: none;
+  position: fixed;
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4); 
+}
+
+
+.modal-content {
+  display: flex;
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  min-width: 1120px;
+  width: 60%;
+
+  #instructions {
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      margin: 30px 0;
+      line-height: 20px;
+
+      h1 {
+          color: black;
+          font-size: 20px;
+          font-weight: 600;
+          margin-bottom: 10px;
+      }
+
+      p {
+          margin-bottom: 10px;
+      }
+
   }
 
-  .modal-content {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    border-radius: 10px;
-    width: 50%; 
-
-    #instructions {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 17px;
-    }
-
-    #detailedBreakdown {
-        align-self: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 17px;
-        list-style: none;
-    }
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  #detailed-breakdown-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 40%;
   }
 
-  ul {
-    list-style: none;
+  #modal-state {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 20px 0;
   }
+
+  #detailed-breakdown {
+      display: flex;
+      justify-content: space-between;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 20px;
+  }
+
+  #detail-categories li:last-child {
+      font-weight: 600;
+  }
+
+  #detail-values li:nth-child(3) {
+      margin-left: -70px;
+  }
+
+  #detail-values li:nth-child(4) {
+      margin-left: -70px;
+      text-decoration: underline;
+  }
+
+  #detail-values li:nth-child(6) {
+      text-decoration: underline;
+  }
+
+  #detail-values li:last-child {
+      font-weight: 600;
+  }
+}
+
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+
+#pieChart text {
+  font-size: 16px;
+}
