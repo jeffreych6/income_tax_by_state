@@ -7,7 +7,6 @@ const renderMap = () => {
     const height = 500;
     const width = 900;
 
-    // Create a hover box
     d3.select("body")
         .append("div")
         .attr("id", "hoverBox")
@@ -21,7 +20,6 @@ const renderMap = () => {
         .attr("class", "us-map")
 
     const projection = d3.geoAlbersUsa()
-        // .translate([ width / 2, height / 2 ])
         .scale(1000)
 
     const path = d3.geoPath()
@@ -36,19 +34,15 @@ const renderMap = () => {
         .attr("class", "state")
         .attr("d", path)
         .on("mouseover", function(d) {
-            // Hover color
             d3.select(this).classed("selected", true);
 
-            // Hover hoverbox box
             d3.select("#hoverBox")
             .style("display", "block");
 
-            // Create state object
             const filingStatus = d3.select("input[name='filingStatus']:checked").node().value
             const employmentStatus = d3.select("input[name='employmentStatus']:checked").node().value
             const currentState = new State(d, filingStatus, employmentStatus);
             
-            // Get income data
             const grossIncome = Number(d3.select("#gross-income").html());
 
             const hoverBoxRows = [
@@ -66,7 +60,6 @@ const renderMap = () => {
                     + currentState.calculateStateTax(currentState.name, grossIncome, filingStatus)).toLocaleString("en-US")}`
             ]
 
-            // Display calculated information in hover hoverbox box
             d3.select("#hoverBoxContainer").remove()
             d3.select("#hoverBoxName").remove()
             d3.select("#hoverBoxDetails").remove()
@@ -102,20 +95,16 @@ const renderMap = () => {
 
         })
         .on("click", function(d) {
-            // Reset modal
             d3.select("#pieChart").remove()
             d3.select("#detailed-breakdown-container").remove()
             d3.select("#instructions").remove()
 
-            // Create state object
             const filingStatus = d3.select("input[name='filingStatus']:checked").node().value
             const employmentStatus = d3.select("input[name='employmentStatus']:checked").node().value
             const currentState = new State(d, filingStatus, employmentStatus)
 
-            // Get income data
             const grossIncome = d3.select("#gross-income").html();
 
-            // Calculate numbers
             const federalTax = Math.floor(currentState.calculateFederalTax(grossIncome, filingStatus))
             const socialSecurityTax = Math.floor(currentState.calculateSocialSecurityTax(grossIncome, employmentStatus))
             const medicareTax = Math.floor(currentState.calculateMedicareTax(grossIncome, employmentStatus))
@@ -123,7 +112,6 @@ const renderMap = () => {
             const federalTaxRate = Number.parseFloat(currentState.calculateFederalMarginalTaxRate(grossIncome, filingStatus)).toFixed(2)
             const stateTaxRate = Number.parseFloat(currentState.calculateStateMarginalTaxRate(currentState.name, grossIncome, filingStatus)).toFixed(2)
 
-            // Display modal
             document.getElementById("myModal").style.display = "block"
 
             renderChart(currentState.titleize(currentState.name), grossIncome, federalTax, socialSecurityTax, medicareTax, stateTax, federalTaxRate, stateTaxRate);

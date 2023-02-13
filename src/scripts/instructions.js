@@ -15,7 +15,7 @@ const renderInstructions = () => {
 
     d3.select("#instructions")
     .append("p")
-    .text("NOTE: This app does NOT include city/county tax and several other tax adjustments and only provides an ESTIMATE!")
+    .text("NOTE: This app uses 2020 tax data and does NOT include city/county tax and several other tax adjustments. It only provides an ESTIMATE!")
     
     d3.select("#instructions")
     .append("li")

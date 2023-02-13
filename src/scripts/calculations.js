@@ -142,7 +142,6 @@ class State {
         }
         return capitalized.join(" ")
     }
-
 }
 
 export default State;
